@@ -22,6 +22,24 @@ static size_t	read_buff(int fd, char **buff, int *bytes_read)
 	return (res);
 }
 
+static char	*ft_strdup(const char *s1)
+{
+	size_t	i;
+	char	*s2;
+
+	i = 0;
+	s2 = (char *) malloc(sizeof(char) * (ft_strlen(s1) + 1));
+	if (!s2)
+		return (NULL);
+	while (s1[i])
+	{
+		s2[i] = s1[i];
+		i++;
+	}
+	s2[i] = '\0';
+	return (s2);
+}
+
 //function to extract a string containing newline
 static char	*extract_line(char **str)
 {
@@ -36,11 +54,11 @@ static char	*extract_line(char **str)
 	{
 		line = ft_strsub(*str, 0, offset + 1);
 		temp = ft_strdup(*str + offset + 1);
-		ft_strdel(str);
+		ft_freestr(str);
 		if (temp[0] != '\0')
 			*str = temp;
 		else
-			ft_strdel(&temp);
+			ft_freestr(&temp);
 	}
 	else
 	{
