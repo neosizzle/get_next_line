@@ -42,12 +42,13 @@ char	*get_next_line(int fd)
 	char	*temp;
 	int		bytes_read;
 
-	res = 0;
-	buff = (char *) malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (fd < 0 || fd > 1024 || BUFFER_SIZE < 1)
 		return (NULL);
+	res = 0;
+	buff = (char *) malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	while (read_buff(fd, buff, &bytes_read) > 0)
 	{
+		buff[bytes_read] = 0;
 		if (!res)
 			res = (char *)malloc(sizeof(char) + 1);
 		temp = ft_strcat(temp, res);
