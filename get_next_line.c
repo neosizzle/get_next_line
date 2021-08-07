@@ -1,5 +1,15 @@
 #include "get_next_line.h"
 
+//function to free a pointer and points it to null
+void	ft_strfree(char **str)
+{
+	if (str)
+	{
+		free(*str);
+		*str = NULL;
+	}
+}
+
 //this function reads from a fd
 //sets the number of bytes read to a pointer
 //return the number of bytes read
@@ -45,17 +55,19 @@ char	*get_next_line(int fd)
 	if (fd < 0 || fd > 1024 || BUFFER_SIZE < 1)
 		return (NULL);
 	buff = (char *) malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buff)
+		return (NULL);
 	while (read_buff(fd, buff, &bytes_read) > 0)
 	{
 		buff[bytes_read] = 0;
 		if (!res)
 			res = ft_bzero(0);
 		temp = ft_strcat(temp, res);
-		free(res);
+		ft_freestr(&res);
 		res = temp;
 		if (ft_strchr(buff, '\n'))
 			break;
 	}
-	free(temp);
+	ft_freestr(&buff);
 	return (extract_line(res));
 }
