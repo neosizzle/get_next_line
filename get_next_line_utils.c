@@ -60,3 +60,17 @@ char	*ft_substr(char *str, int start, int len)
 	res[i] = 0;
 	return (res);
 }
+
+char	*ft_bzero(int size)
+{
+	char	*res;
+	int		i;
+
+	res = (char *)malloc(sizeof(char) * (size + 1));
+	i = 0;
+	while (i < size + 1)
+	{
+		res[i++] = 0;
+	}
+	return (res);
+}

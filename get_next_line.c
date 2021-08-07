@@ -37,20 +37,19 @@ static char	*extract_line(char *s)
 //3. return null for err handling or EOF reached
 char	*get_next_line(int fd)
 {
-	char	*res;
+	static char	*res;
 	char	*buff;
 	char	*temp;
 	int		bytes_read;
 
 	if (fd < 0 || fd > 1024 || BUFFER_SIZE < 1)
 		return (NULL);
-	res = 0;
 	buff = (char *) malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	while (read_buff(fd, buff, &bytes_read) > 0)
 	{
 		buff[bytes_read] = 0;
 		if (!res)
-			res = (char *)malloc(sizeof(char) + 1);
+			res = ft_bzero(0);
 		temp = ft_strcat(temp, res);
 		free(res);
 		res = temp;
