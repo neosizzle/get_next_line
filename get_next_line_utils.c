@@ -1,8 +1,8 @@
 #include "get_next_line.h"
 
 //helpers
-
-size_t	ft_strlen(char *s)
+//calculates and gets the string length
+size_t	ft_strlen(const char *s)
 {
 	size_t	res;
 
@@ -12,11 +12,13 @@ size_t	ft_strlen(char *s)
 	return (res);
 }
 
+//joins s1 and s2 together
+//allocates new memory
 char	*ft_strcat(char *s1, char *s2)
 {
 	char	*res;
-	int		i;
-	int		j;
+	size_t	i;
+	size_t	j;
 
 	res = (char *)malloc(sizeof(char) *(ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!res)
@@ -28,32 +30,41 @@ char	*ft_strcat(char *s1, char *s2)
 		res[i + j] = s1[i];
 		i++;
 	}
-	
 	while (s2[j])
 	{
 		res[i + j] = s2[j];
 		j++;
 	}
-	res[i + j] = 0;
+	res[i + j] = '\0';
 	return (res);
 }
 
-char	*ft_strchr(char *s, int c)
+//finds a chr in a string, returns pointer to that char if found
+char	*ft_strchr(const char *s, int c)
 {
-	while (*s)
+	size_t	i;
+	size_t	len;
+
+	i = 0;
+	len = ft_strlen(s);
+	while (i < len && s[i])
 	{
-		if (*s == c)
-			return (s);
+		if (s[i] == c)
+			return ((char *)(s + i));
 		s++;
 	}
 	return (0);
 }
 
-char	*ft_substr(char *str, int start, int len)
+//allocates mem and generates a substring based on the 
+//satrting point and length of the og string
+char	*ft_substr(const char *str, size_t start, size_t len)
 {
 	char	*res;
-	int		i;
+	size_t	i;
 
+	if (!str)
+		return (0);
 	res = (char *)malloc(sizeof(char) * (len + 1));
 	if (!res)
 		return (0);
@@ -64,16 +75,20 @@ char	*ft_substr(char *str, int start, int len)
 	return (res);
 }
 
-char	*ft_bzero(int size)
+//allocates mem with size and fills it with zero
+char	*ft_bzero(size_t size)
 {
 	char	*res;
-	int		i;
+	size_t	i;
 
 	res = (char *)malloc(sizeof(char) * (size + 1));
+	if (!res)
+		return (0);
 	i = 0;
 	while (i < size + 1)
 	{
-		res[i++] = 0;
+		*(char *)(res + i) = 0;
+		i++;
 	}
 	return (res);
 }
