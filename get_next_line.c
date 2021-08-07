@@ -1,7 +1,7 @@
 #include "get_next_line.h"
 
 //function to free a pointer and points it to null
-void	ft_strfree(char **str)
+void	ft_freestr(char **str)
 {
 	if (str)
 	{
