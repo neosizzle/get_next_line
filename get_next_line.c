@@ -59,15 +59,17 @@ char	*get_next_line(int fd)
 		return (NULL);
 	while (read_buff(fd, &buff, &bytes_read) > 0)
 	{
-		buff[bytes_read] = 0;
+		buff[bytes_read] = '\0';
 		if (!res)
 			res = ft_bzero(0);
 		temp = ft_strcat(temp, res);
 		ft_freestr(&res);
 		res = temp;
 		if (ft_strchr(buff, '\n'))
-			break;
+			break ;
 	}
 	ft_freestr(&buff);
+	if (bytes_read < 0 || (bytes_read == 0 && !res))
+		return (NULL);
 	return (extract_line(res));
 }

@@ -31,7 +31,7 @@ char	*ft_strcat(char *s1, char *s2)
 		i++;
 		j++;
 	}
-	res[i + j] = 0;
+	res[i + j] = '\0';
 	return (res);
 }
 
