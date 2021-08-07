@@ -20,7 +20,7 @@ char	*ft_strcat(char *s1, char *s2)
 
 	res = (char *)malloc(sizeof(char) *(ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!res)
-		reutrn (0);
+		return (0);
 	i = -1;
 	j = 0;
 	while (s1[++i])
@@ -35,7 +35,7 @@ char	*ft_strcat(char *s1, char *s2)
 	return (res);
 }
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strchr(char *s, int c)
 {
 	while (*s)
 	{
@@ -53,7 +53,7 @@ char	*ft_substr(char *str, int start, int len)
 
 	res = (char *)malloc(sizeof(char) * (len + 1));
 	if (!res)
-		reutrn(0);
+		return (0);
 	i = 0;
 	while (start < len)
 		res[i++] = str[start++];
