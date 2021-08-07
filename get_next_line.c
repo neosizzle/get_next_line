@@ -13,11 +13,11 @@ void	ft_freestr(char **str)
 //this function reads from a fd
 //sets the number of bytes read to a pointer
 //return the number of bytes read
-static size_t	read_buff(int fd, char *buff, int *bytes_read)
+static size_t	read_buff(int fd, char **buff, int *bytes_read)
 {
 	int	res;
 
-	res = read(fd, buff, BUFFER_SIZE);
+	res = read(fd, *buff, BUFFER_SIZE);
 	*bytes_read = res;
 	return (res);
 }
@@ -57,7 +57,7 @@ char	*get_next_line(int fd)
 	buff = (char *) malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buff)
 		return (NULL);
-	while (read_buff(fd, buff, &bytes_read) > 0)
+	while (read_buff(fd, &buff, &bytes_read) > 0)
 	{
 		buff[bytes_read] = 0;
 		if (!res)
