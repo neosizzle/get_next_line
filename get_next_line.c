@@ -1,4 +1,5 @@
 #include "get_next_line.h"
+#include <stdio.h>
 
 //function to free a pointer and points it to null
 void	ft_freestr(char **str)
@@ -22,52 +23,23 @@ static size_t	read_buff(int fd, char **buff, int *bytes_read)
 	return (res);
 }
 
-static char	*ft_strdup(const char *s1)
+//function to extract a string containing newline
+char	*extract_line(char *str)
 {
-	size_t	i;
-	char	*s2;
+	int		i;
+	char	*res;
 
 	i = 0;
-	s2 = (char *) malloc(sizeof(char) * (ft_strlen((char *)s1) + 1));
-	if (!s2)
-		return (NULL);
-	while (s1[i])
-	{
-		s2[i] = s1[i];
+	while (str[i] && str[i] != '\n')
 		i++;
-	}
-	s2[i] = '\0';
-	return (s2);
-}
-
-//function to extract a string containing newline
-static char	*extract_line(char **str)
-{
-	size_t	offset;
-	char	*line;
-	char	*temp;
-
-	offset = 0;
-	while ((*str)[offset] != '\n' && (*str)[offset] != '\0')
-		offset++;
-	if ((*str)[offset] == '\n')
+	if (str[i])
 	{
-		line = ft_substr(*str, 0, offset + 1);
-		temp = ft_strdup(*str + offset + 1);
-		ft_freestr(str);
-		if (temp[0] != '\0')
-			*str = temp;
-		else
-			ft_freestr(&temp);
+		res = ft_substr(str, 0, i + 1);
+		return (res);
 	}
-	else
-	{
-		line = ft_strdup(*str);
-		ft_freestr(str);
-	}
-	return (line);
+	return (0);
 }
-
+	
 //gnl main func
 //the general idea is to:
 //1. read the fd for buff size with while its not EOF
@@ -89,10 +61,10 @@ char	*get_next_line(int fd)
 		return (NULL);
 	while (read_buff(fd, &buff, &bytes_read) > 0)
 	{
-		buff[bytes_read] = '\0';
+		buff[bytes_read] = 0;
 		if (!res)
 			res = ft_bzero(0);
-		temp = ft_strcat(temp, res);
+		temp = ft_strcat(res, buff);
 		ft_freestr(&res);
 		res = temp;
 		if (ft_strchr(buff, '\n'))
@@ -101,5 +73,5 @@ char	*get_next_line(int fd)
 	ft_freestr(&buff);
 	if (bytes_read < 0 || (bytes_read == 0 && !res))
 		return (NULL);
-	return (extract_line(&res));
+	return (extract_line(res));
 }
