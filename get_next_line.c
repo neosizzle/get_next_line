@@ -52,7 +52,7 @@ static char	*extract_line(char **str)
 		offset++;
 	if ((*str)[offset] == '\n')
 	{
-		line = ft_strsub(*str, 0, offset + 1);
+		line = ft_substr(str, 0, offset + 1);
 		temp = ft_strdup(*str + offset + 1);
 		ft_freestr(str);
 		if (temp[0] != '\0')
@@ -63,7 +63,7 @@ static char	*extract_line(char **str)
 	else
 	{
 		line = ft_strdup(*str);
-		ft_strdel(str);
+		ft_freestr(str);
 	}
 	return (line);
 }
