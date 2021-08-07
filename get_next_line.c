@@ -28,7 +28,7 @@ static char	*ft_strdup(const char *s1)
 	char	*s2;
 
 	i = 0;
-	s2 = (char *) malloc(sizeof(char) * (ft_strlen(s1) + 1));
+	s2 = (char *) malloc(sizeof(char) * (ft_strlen((char *)s1) + 1));
 	if (!s2)
 		return (NULL);
 	while (s1[i])
@@ -52,7 +52,7 @@ static char	*extract_line(char **str)
 		offset++;
 	if ((*str)[offset] == '\n')
 	{
-		line = ft_substr(str, 0, offset + 1);
+		line = ft_substr(*str, 0, offset + 1);
 		temp = ft_strdup(*str + offset + 1);
 		ft_freestr(str);
 		if (temp[0] != '\0')
