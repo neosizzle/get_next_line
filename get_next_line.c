@@ -23,19 +23,31 @@ static size_t	read_buff(int fd, char **buff, int *bytes_read)
 }
 
 //function to extract a string containing newline
-static char	*extract_line(char *s)
+static char	*extract_line(char **str)
 {
-	int		i;
-	char	*res;
+	size_t	offset;
+	char	*line;
+	char	*temp;
 
-	i = 0;
-	while (s[i] && s[i] != '\n')
-		i++;
-	res = (char *)malloc(sizeof(char) * (i + 1));
-	res = ft_substr(res, 0, i + 1);
-	if (!res)
-		return (0);
-	return (res);
+	offset = 0;
+	while ((*str)[offset] != '\n' && (*str)[offset] != '\0')
+		offset++;
+	if ((*str)[offset] == '\n')
+	{
+		line = ft_strsub(*str, 0, offset + 1);
+		temp = ft_strdup(*str + offset + 1);
+		ft_strdel(str);
+		if (temp[0] != '\0')
+			*str = temp;
+		else
+			ft_strdel(&temp);
+	}
+	else
+	{
+		line = ft_strdup(*str);
+		ft_strdel(str);
+	}
+	return (line);
 }
 
 //gnl main func
@@ -71,5 +83,5 @@ char	*get_next_line(int fd)
 	ft_freestr(&buff);
 	if (bytes_read < 0 || (bytes_read == 0 && !res))
 		return (NULL);
-	return (extract_line(res));
+	return (extract_line(&res));
 }
